@@ -7,13 +7,13 @@ package dvt.test.weather;
 public class WeatherObject {
     private double maxTemperature;
     private double minTemperature;
-    private int icon;
+    private String iconURL;
     private String dateValue;
 
-    public WeatherObject(double maxTemp, double minTemp, int icon, String date) {
+    public WeatherObject(double maxTemp, double minTemp, String iconURL, String date) {
         this.maxTemperature = maxTemp;
         this.minTemperature = minTemp;
-        this.icon = icon;
+        this.iconURL = iconURL;
         this.dateValue = date;
     }
 
@@ -25,8 +25,8 @@ public class WeatherObject {
         return minTemperature;
     }
 
-    public int getIcon() {
-        return icon;
+    public String getIconURL() {
+        return iconURL;
     }
 
     public String getDate() {

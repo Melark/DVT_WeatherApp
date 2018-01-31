@@ -10,6 +10,6 @@ public interface IJsonConverter {
     String dateValue(JSONObject object);
     double maxTemperature(JSONObject object);
     double minTemperature(JSONObject object);
-    int weatherIcon(JSONObject object);
+    String weatherIconURL(JSONObject object);
     String locationValue();
 }
