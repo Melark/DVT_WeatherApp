@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:text="Hyde Park, South Africa"
-            android:textColor=""
+            android:textColor="@color/textColorPrimary"
             tools:layout_editor_absoluteX="119dp"
             tools:layout_editor_absoluteY="317dp" />
 
