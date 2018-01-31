@@ -1,6 +1,7 @@
 package dvt.test.weather;
 
 import android.net.Uri;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -39,7 +40,7 @@ public class DataHandler implements IDataHandler {
         return url;
     }
 
-    static String GetWeatherData(URL url) throws IOException {
+    public String GetWeatherData(URL url) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         try {
             InputStream stream = conn.getInputStream();
