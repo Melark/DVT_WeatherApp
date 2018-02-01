@@ -186,4 +186,10 @@ public class JsonConverter implements IJsonConverter {
         return weatherObjList.toArray(new WeatherObject[weatherObjList.size()]);
     }
 
+    WeatherObject GetCurrentWeatherObject(){
+        if(isWeatherListEmpty())
+            return null;
+        return weatherObjList.get(0);
+    }
+
 }
