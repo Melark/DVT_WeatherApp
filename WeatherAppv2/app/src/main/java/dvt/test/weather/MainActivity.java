@@ -2,7 +2,10 @@ package dvt.test.weather;
 
 import android.*;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -24,6 +27,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,25 +46,19 @@ public class MainActivity extends AppCompatActivity implements
             textViewDay1,
             textViewDay2,
             textViewDay3,
-            textViewDay4,
-            textViewDay5,
             textViewDay1MinTemp,
             textViewDay1MaxTemp,
             textViewDay2MinTemp,
             textViewDay2MaxTemp,
             textViewDay3MinTemp,
-            textViewDay3MaxTemp,
-            textViewDay4MinTemp,
-            textViewDay4MaxTemp,
-            textViewDay5MinTemp,
-            textViewDay5MaxTemp;
+            textViewDay3MaxTemp;
 
     private ImageView imageViewCurrent,
             imageViewDay1,
             imageViewDay2,
-            imageViewDay3,
-            imageViewDay4,
-            imageViewDay5;
+            imageViewDay3;
+
+    private static String DEGREES_CELCIUS = " \u2103";
 
     GoogleApiClient googleApiClient;
     LocationRequest locationRequest;
@@ -69,48 +67,53 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-        AssignTextViews();
+            AssignTextViews();
 
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        locationRequest.setInterval(LOCATION_REFRESH_PERIOD);
+            googleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+            locationRequest = LocationRequest.create();
+            locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+            locationRequest.setInterval(LOCATION_REFRESH_PERIOD);
+        } catch (Exception e) {
+            showErrorPage();
+        }
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this, new String[]
-                    {android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
-        }else
-        {
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-            onLocationChanged(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
+        try {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]
+                        {android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
+            } else {
+                LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+                onLocationChanged(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
 
+            }
+        } catch (Exception e) {
+            showErrorPage();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case FINE_LOCATION_REQUEST_CODE:
-                if((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                        &&ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED){
+                if ((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                        && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
                     LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
                             locationRequest, this);
                     onLocationChanged(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
-                }
-                else{
+                } else {
                     Log.e("RequestPermission", "Location permission not granted");
                     showErrorPage();
                 }
@@ -143,9 +146,9 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         protected String doInBackground(URL... url) {
             String json = null;
-            try{
+            try {
                 json = DataHandler.GetWeatherData(url[0]);
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return json;
@@ -161,30 +164,30 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void showErrorPage() {
-
+        Intent intent = new Intent(this, ErrorActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i("Connection","Connection has been suspended");
+        Log.i("Connection", "Connection has been suspended");
 
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        if(!connectionResult.hasResolution()){
-            Log.e("Connection","Connection Failed");
+        if (!connectionResult.hasResolution()) {
+            Log.e("Connection", "Connection Failed");
             GoogleApiAvailability.getInstance().getErrorDialog(this, connectionResult.getErrorCode(), 0).show();
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        if(location == null){
+        if (location == null) {
             Log.e("Location", "location null");
             showErrorPage();
-        }else
-        {
+        } else {
             URL url = DataHandler.buildUrl(Double.toString(location.getLatitude()),
                     Double.toString(location.getLongitude()));
             new AsyncDataLoader().execute(url);
@@ -214,66 +217,79 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    private void updateDisplayBasedOnJSON(String Json){
-        if(Json == null || Json.equals("")){
+    private void updateDisplayBasedOnJSON(String Json) {
+        if (Json == null || Json.equals("")) {
             Log.e("Show Error", "displayWeatherDataFromJson Json string is null");
             showErrorPage();
             return;
         }
 
-        JsonConverter jsonConverter = new JsonConverter(Json,MainActivity.this);
-        if(jsonConverter.isWeatherListEmpty()){
+        JsonConverter jsonConverter = new JsonConverter(Json, MainActivity.this);
+        if (jsonConverter.isWeatherListEmpty()) {
             Log.e("JSON UTILS", "json string error");
             showErrorPage();
             return;
         }
         WeatherObject currentWeather = jsonConverter.GetCurrentWeatherObject();
-        textViewCurrentMaxTemp.setText(String.format("Max: %s",String.valueOf( (int) Math.round(currentWeather.getMaxTemp()))));
-        textViewCurrentMinTemp.setText(String.format("Min: %s",String.valueOf( (int) Math.round(currentWeather.getMinTemp()))));
+        textViewCurrentMaxTemp.setText(String.format("Max: %s%s", String.valueOf((int) Math.round(currentWeather.getMaxTemp())), DEGREES_CELCIUS));
+        textViewCurrentMinTemp.setText(String.format("Min: %s%s", String.valueOf((int) Math.round(currentWeather.getMinTemp())), DEGREES_CELCIUS));
 
         textViewDate.setText(BuildDate());
         textViewLocation.setText(jsonConverter.locationValue());
 
-        DataHandler.loadImageFromURL(currentWeather.getIconURL(),imageViewCurrent);
+        new AsyncDownloadImage(imageViewCurrent).execute(currentWeather.getIconURL());
         WeatherObject[] weatherItems = jsonConverter.getWeatherObjects();
 
-        /*
-        //update table layout display
+        textViewDay1.setText(weatherItems[1].getDate());
+        textViewDay1MaxTemp.setText(String.format("%s%s", String.valueOf(weatherItems[1].getMaxTemp()), DEGREES_CELCIUS));
+        textViewDay1MinTemp.setText(String.format("%s%s", String.valueOf(weatherItems[1].getMinTemp()), DEGREES_CELCIUS));
+        new AsyncDownloadImage(imageViewDay1).execute(weatherItems[0].getIconURL());
 
-        for (int rows = 0; rows < 4 ; rows++) {
-            for (int columns = 0; columns < weatherItems.length; columns++) {
-                TextView temp = null;
-                ImageView imageTemp = null;
-                if (rows <3)
-                {
-                    temp = (TextView) findViewById(tableRowFields[rows][columns]);
-                    temp.setTypeface(robotoRegular);
+        textViewDay2.setText(weatherItems[2].getDate());
+        textViewDay2MaxTemp.setText(String.format("%s%s", String.valueOf(weatherItems[2].getMaxTemp()), DEGREES_CELCIUS));
+        textViewDay2MinTemp.setText(String.format("%s%s", String.valueOf(weatherItems[2].getMinTemp()), DEGREES_CELCIUS));
+        new AsyncDownloadImage(imageViewDay2).execute(weatherItems[1].getIconURL());
 
-                }else{
-                    imageTemp = (ImageView) findViewById(tableRowFields[rows][columns]);
-                }
-                if (rows == 0)
-                {
-                    temp.setText(weatherItems[columns].getDate().substring(8,10));
-                    temp.setTypeface(montserratBold);
-                }
-                else if (rows ==1)
-                    temp.setText(String.valueOf( (int) Math.round(weatherItems[columns].getMinTemp())));
+        textViewDay3.setText(weatherItems[3].getDate());
+        textViewDay3MaxTemp.setText(String.format("%s%s", String.valueOf(weatherItems[3].getMaxTemp()), DEGREES_CELCIUS));
+        textViewDay3MinTemp.setText(String.format("%s%s", String.valueOf(weatherItems[3].getMinTemp()), DEGREES_CELCIUS));
+        new AsyncDownloadImage(imageViewDay3).execute(weatherItems[2].getIconURL());
 
-                else if (rows ==2)
-                    temp.setText(String.valueOf( (int) Math.round(weatherItems[columns].getMaxTemp())));
-
-                else if(rows == 3)
-                    imageTemp.setImageResource(weatherItems[columns].getIcon());
-            }
-        }
-        */
     }
 
-    private String BuildDate(){
+    private class AsyncDownloadImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView imageView;
+
+        public AsyncDownloadImage(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+
+        protected Bitmap doInBackground(String... url) {
+            String fullUrl = String.format("%s.png", url);
+            Bitmap image = null;
+            try {
+                InputStream is = new URL(fullUrl).openStream();
+                image = BitmapFactory.decodeStream(is);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return image;
+        }
+
+        /*
+            onPostExecute(Result result)
+                Runs on the UI thread after doInBackground(Params...).
+         */
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
+        }
+    }
+
+    private String BuildDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
         Date date = new Date();
-        return   dateFormat.format(date).toUpperCase();
+        return dateFormat.format(date).toUpperCase();
     }
 
     private void AssignTextViews() {
@@ -284,24 +300,17 @@ public class MainActivity extends AppCompatActivity implements
         textViewDay1 = (TextView) findViewById(R.id.textViewDay1);
         textViewDay2 = (TextView) findViewById(R.id.textViewDay2);
         textViewDay3 = (TextView) findViewById(R.id.textViewDay3);
-        textViewDay4 = (TextView) findViewById(R.id.textViewDay4);
-        textViewDay5 = (TextView) findViewById(R.id.textViewDay5);
+
         textViewDay1MinTemp = (TextView) findViewById(R.id.textViewDay1Min);
         textViewDay1MaxTemp = (TextView) findViewById(R.id.textViewDay1Max);
         textViewDay2MinTemp = (TextView) findViewById(R.id.textViewDay2Min);
         textViewDay2MaxTemp = (TextView) findViewById(R.id.textViewDay2Max);
         textViewDay3MinTemp = (TextView) findViewById(R.id.textViewDay3Min);
         textViewDay3MaxTemp = (TextView) findViewById(R.id.textViewDay3Max);
-        textViewDay4MinTemp = (TextView) findViewById(R.id.textViewDay4Min);
-        textViewDay4MaxTemp = (TextView) findViewById(R.id.textViewDay4Max);
-        textViewDay5MinTemp = (TextView) findViewById(R.id.textViewDay5Min);
-        textViewDay5MaxTemp = (TextView) findViewById(R.id.textViewDay5Max);
 
         imageViewCurrent = (ImageView) findViewById(R.id.imageViewMain);
         imageViewDay1 = (ImageView) findViewById(R.id.imageViewDay1);
         imageViewDay2 = (ImageView) findViewById(R.id.imageViewDay2);
         imageViewDay3 = (ImageView) findViewById(R.id.imageViewDay3);
-        imageViewDay4 = (ImageView) findViewById(R.id.imageViewDay4);
-        imageViewDay5 = (ImageView) findViewById(R.id.imageViewDay5);
     }
 }

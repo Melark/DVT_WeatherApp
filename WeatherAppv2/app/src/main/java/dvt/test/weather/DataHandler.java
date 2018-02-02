@@ -59,7 +59,7 @@ public class DataHandler {
 
     public static boolean loadImageFromURL(String imageDesc, ImageView image) {
         try {
-            String fullUrl = String.format("%s%s", IMAGE_URL_BASE, imageDesc);
+            String fullUrl = String.format("%s.png", imageDesc);
             URL imageURL = new URL(fullUrl);
             HttpURLConnection conn = (HttpURLConnection) imageURL.openConnection();
             conn.setDoInput(true);

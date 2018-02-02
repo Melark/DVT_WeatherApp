@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Weather</string>
     <string name="title_activity_maps">Map</string>
+    <string name="error_body">Please make sure you have internet connection and that your location services are turmed on</string>
+    <string name="error_title">Oops! Something went wrong!</string>
 </resources>

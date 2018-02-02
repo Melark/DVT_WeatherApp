@@ -4,50 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blurredbackground"
     tools:context="dvt.test.weather.MainActivity">
-
-    <TextView
-        android:id="@+id/textViewDay5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="FRI"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay5"
-        app:layout_constraintHorizontal_bias="0.058"
-        app:layout_constraintStart_toStartOf="@+id/imageViewDay5"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewDay5" />
 
     <TextView
         android:id="@+id/textViewLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView8"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Hyde Park, South Africa"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentMinTemp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentMaxTemp"
         tools:text="Hyde Park, South Africa" />
 
     <TextView
         android:id="@+id/textViewCurrentMinTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewCurrentMinTemp"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="min 12 C"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentMaxTemp" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewMain" />
 
     <TextView
         android:id="@+id/textViewCurrentMaxTemp"
@@ -57,12 +43,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="max 23 C"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewMain" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentMinTemp" />
 
     <ImageView
         android:id="@+id/imageViewMain"
@@ -73,6 +61,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDate"
@@ -89,6 +78,7 @@
         android:layout_marginTop="40dp"
         android:text="TODAY, 14 April 2017"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -99,6 +89,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toStartOf="@+id/imageViewDay3"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageViewDay1"
         app:layout_constraintTop_toBottomOf="@+id/textViewForecastHeading"
         app:srcCompat="@mipmap/ic_launcher_round" />
@@ -107,9 +98,9 @@
         android:id="@+id/imageViewDay1"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toStartOf="@+id/imageViewDay2"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewForecastHeading"
         app:srcCompat="@mipmap/ic_launcher_round" />
@@ -119,29 +110,9 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewDay4"
-        app:layout_constraintStart_toEndOf="@+id/imageViewDay2"
-        app:layout_constraintTop_toBottomOf="@+id/textViewForecastHeading"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
-    <ImageView
-        android:id="@+id/imageViewDay4"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewDay5"
-        app:layout_constraintStart_toEndOf="@+id/imageViewDay3"
-        app:layout_constraintTop_toBottomOf="@+id/textViewForecastHeading"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
-    <ImageView
-        android:id="@+id/imageViewDay5"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewDay4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewDay2"
         app:layout_constraintTop_toBottomOf="@+id/textViewForecastHeading"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
@@ -150,10 +121,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="MON"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay1"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay1"
         app:layout_constraintTop_toBottomOf="@+id/imageViewDay1" />
 
@@ -161,38 +132,21 @@
         android:id="@+id/textViewDay2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="TUE"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay2"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay2"
         app:layout_constraintTop_toBottomOf="@+id/imageViewDay2" />
-
-    <TextView
-        android:id="@+id/textViewDay4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="THU"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay4"
-        app:layout_constraintHorizontal_bias="0.375"
-        app:layout_constraintStart_toStartOf="@+id/imageViewDay4"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewDay4" />
 
     <TextView
         android:id="@+id/textViewDay3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="WED"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay3"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay3"
         app:layout_constraintTop_toBottomOf="@+id/imageViewDay3" />
 
@@ -203,8 +157,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:text="5 Day Forecast"
+        android:text="3 Day Forecast"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLocation" />
@@ -213,23 +168,23 @@
         android:id="@+id/textViewDay1Max"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Max"
+        android:text="max"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay1"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay1"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay1" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay1Min" />
 
     <TextView
         android:id="@+id/textViewDay1Min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="min"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay1"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay1"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay1Max" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay1" />
 
     <TextView
         android:id="@+id/textViewDay2Max"
@@ -238,9 +193,9 @@
         android:layout_marginStart="8dp"
         android:text="max"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay2"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay2"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay2" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay2Min" />
 
     <TextView
         android:id="@+id/textViewDay3Max"
@@ -249,70 +204,30 @@
         android:layout_marginStart="8dp"
         android:text="max"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay3"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay3"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay3" />
-
-    <TextView
-        android:id="@+id/textViewDay4Max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="max"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay4"
-        app:layout_constraintStart_toStartOf="@+id/imageViewDay4"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay4" />
-
-    <TextView
-        android:id="@+id/textViewDay5Max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="max"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay5"
-        app:layout_constraintStart_toStartOf="@+id/imageViewDay5"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay5" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay3Min" />
 
     <TextView
         android:id="@+id/textViewDay2Min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="min"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay2"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay2"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay2Max" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay2" />
 
     <TextView
         android:id="@+id/textViewDay3Min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="min"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay3"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="@+id/imageViewDay3"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay3Max" />
-
-    <TextView
-        android:id="@+id/textViewDay4Min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="min"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay4"
-        app:layout_constraintStart_toStartOf="@+id/imageViewDay4"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay4Max" />
-
-    <TextView
-        android:id="@+id/textViewDay5Min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="min"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewDay5"
-        app:layout_constraintStart_toStartOf="@+id/imageViewDay5"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDay5Max" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDay3" />
 
 </android.support.constraint.ConstraintLayout>

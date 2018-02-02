@@ -1,7 +1,7 @@
 package dvt.test.weather;
 
-import android.content.Context;
-import android.support.v7.app.AlertDialog;
+        import android.content.Context;
+        import android.support.v7.app.AlertDialog;
 
 /**
  * Created by marka on 2018/01/31.
